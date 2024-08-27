@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  spring-app-microserservice-a:
+    image: yashika1410/docker-microservice-a
+    ports:
+      - 8080:8080
+  mysql-app:
+      image: mysql:8.0
+      ports:
+        - 3315:3306
+      environment:
+        MYSQL_DATABASE: db
+        MYSQL_USER: spring_root
+        MYSQL_ROOT_PASSWORD: random@PasswordComb1nA@Ti0n
+      command: mysqld --default-authentication-plugin=mysql_native_password
+      volumes:
+        - mysql_data:/var/lib/mysql
+  spring-app-microserservice-b:
+    image: yashika1410/docker-microservice-b
+    ports:
+      - 8082:8080
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: random@PasswordComb1nA@Ti0n
+      DB_URL: jdbc:mysql://mysql-app:3306/db
+    depends_on:
+      - mysql-app
+
+volumes:
+  mysql_data:
