@@ -35,18 +35,19 @@ docker run -d --name mysql-app  --network docker-assignment -p 3315:3306  -e MYS
 ```
 5. Depoly Microservice A
 ```bash
-docker run -d --name spring-app-microservice-a --network docker-assignment -p 8080:8080 --memory 256m -u 1000 --cpu-shares 512 --pids-limit 100 -v $(pwd)/logs:/log yashika1410/docker-2-microservice-a
+docker run -d --name spring-app-microservice-a --network docker-assignment -p 8080:8080 --memory 256m -u 1000 --cpu-shares 512 --pids-limit 100 -v ./logs:/log yashika1410/docker-2-microservice-a
 ```
 
 5. Deploy Microservice B
 ```bash
-docker run -d --name spring-app-microservice-b --network docker-assignment -p 8082:8080 -e DB_USERNAME=root -e DB_PASSWORD=random@PasswordComb1nA@Ti0n -e DB_URL=jdbc:mysql://mysql-app:3306/db --memory 256m --cpu-shares 512 --pids-limit 100 -v $(pwd)/logs:/log yashika1410/docker-2-microservice-b
+docker run -d --name spring-app-microservice-b --network docker-assignment -p 8082:8080 -e DB_USERNAME=root -e DB_PASSWORD=random@PasswordComb1nA@Ti0n -e DB_URL=jdbc:mysql://mysql-app:3306/db --memory 256m --cpu-shares 512 --pids-limit 100 -v ./logs:/log yashika1410/docker-2-microservice-b
 ```
 
 6. Check Status of containers
 ```bash
 docker ps
 ```
+7. To view both the service logs open logs folder there will be two log files microservice-a.log and microservice-b.log respectively for both the services.
 
 #### If you want to check the code or build the image locally.
 1. clone repository
