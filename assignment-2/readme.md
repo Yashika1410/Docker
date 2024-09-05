@@ -25,19 +25,24 @@ docker network create docker-assignment
 ```bash
 docker volume create mysql_data
 ```
-
-3. Deploy mysql database
+3. Create a log folder
 ```bash
-docker run -d --name mysql-app  --network docker-assignment -p 3315:3306   -e MYSQL_DATABASE=db -e MYSQL_USER=spring_root -e MYSQL_ROOT_PASSWORD=random@PasswordComb1nA@Ti0n --volume mysql_data:/var/lib/mysql mysql:8.0 mysqld --default-authentication-plugin=mysql_native_password
+mkdir logs
 ```
-4. Depoly Microservice A
+4. Deploy mysql database
 ```bash
-docker run -d --name spring-app-microservice-a --network docker-assignment -p 8080:8080 --memory 256m -u 1000 yashika1410/docker-2-microservice-a
+docker run -d --name mysql-app  --network docker-assignment -p 3315:3306  
+ -e MYSQL_DATABASE=db -e MYSQL_USER=spring_root -e MYSQL_ROOT_PASSWORD=random@PasswordComb1nA@Ti0n  --volume mysql_data:/var/lib/mysql --pids-limit 100 --cpu-shares 512 --memory 256m mysql:8.0  mysqld --default-authentication-plugin=mysql_native_password
+```
+5. Depoly Microservice A
+```bash
+docker run -d --name spring-app-microservice-a --network docker-assignment -p 8080:8080 --memory 256m -u 1000 --cpu-shares 512 --pids-limit 100 -v $(pwd)/logs:/log yashika1410/docker-2-microservice-a
 ```
 
 5. Deploy Microservice B
 ```bash
-docker run -d --name spring-app-microservice-b --network docker-assignment -p 8082:8080 -e DB_USERNAME=root -e DB_PASSWORD=random@PasswordComb1nA@Ti0n -e DB_URL=jdbc:mysql://mysql-app:3306/db --memory 256m -u 1000 yashika1410/docker-2-microservice-b
+docker run -d --name spring-app-microservice-b --network docker-assignment -p 8082:8080 -e DB_USERNAME=root -e DB_PASSWORD=random@PasswordComb1nA@Ti0n -e DB_URL=jdbc:mysql://mysql-app:3306/db --memory 256m --cpu-shares 
+512 --pids-limit 100 -v $(pwd)/logs:/log yashika1410/docker-2-microservice-b
 ```
 
 6. Check Status of containers
