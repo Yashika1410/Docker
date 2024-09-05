@@ -12,10 +12,12 @@ COPY src/ ./src/
 RUN mvn clean install -DskipTests
 
 FROM openjdk:17-jdk-slim
+RUN mkdir log
+RUN chown -R 1000:1000 ./log
 RUN apt-get update && apt-get install -y curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* && echo hello
-RUN addgroup --system appgroup && adduser --system --group appuser
+RUN addgroup --system appgroup && adduser --system --group  --uid 1000 appuser
 USER appuser
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8080
