@@ -19,7 +19,7 @@ RUN chown -R 1000:1000 ./log
 RUN apt-get update && apt-get install -y curl \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* && echo hello
-RUN addgroup --system appgroup && adduser --system --group --uid 1000 appuser
+RUN groupadd appgroup && useradd appuser -G appgroup
 USER appuser
 
 COPY --from=builder /app/target/*.jar app.jar
@@ -30,4 +30,3 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
 EXPOSE 8080
 
 CMD ["java", "-jar", "app.jar"]
-
