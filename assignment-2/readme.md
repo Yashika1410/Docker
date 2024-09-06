@@ -47,7 +47,11 @@ docker run -d --name spring-app-microservice-b --network docker-assignment -p 80
 ```bash
 docker ps
 ```
-7. To view both the service logs open logs folder there will be two log files microservice-a.log and microservice-b.log respectively for both the services.
+7. Deployment screen shot
+![Deployment Screen Shot](./images/5.jpeg)
+
+8. To view both the service logs open logs folder there will be two log files microservice-a.log and microservice-b.log respectively for both the services.
+
 
 #### If you want to check the code or build the image locally.
 1. clone repository
@@ -74,3 +78,6 @@ docker run --rm -v mysql_data:/var/lib/mysql -v $(pwd):/backup ubuntu tar czvf /
 ![Vulnerability report](./images/1.jpeg)
 #### Docker Bench security Report
 ![Docker Bench security Report](./images/2.PNG)
+#### Before implementing security warning fix Bench security report
+![Warnings of OLD Docker Bench security Report](./images/3.PNG)
+![OLD Docker Bench security Report](./images/4.PNG)
