@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-welcome-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-welcome-app
+  template:
+    metadata:
+      labels:
+        app: spring-welcome-app
+    spec:
+      containers:
+        - name: spring-welcome-app
+          image: yashika1410/docker-2-microservice-a
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: "125m"
+              memory: "100Mi"
+            limits:
+              memory: "500Mi"
+              cpu: "250m"
+          ports:
+            - containerPort: 8080
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /api/v1/microservice-a/welcome
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
+          readinessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /api/v1/microservice-a/welcome
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 60
+            periodSeconds: 30
+            successThreshold: 1
+            timeoutSeconds: 10
